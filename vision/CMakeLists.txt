@@ -24,6 +24,13 @@ find_package(cvcuda REQUIRED)
 
 include(FetchContent)
 
+# Fetch fmt
+FetchContent_Declare(
+  fmt
+  GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+  GIT_TAG 10.0.0)
+FetchContent_MakeAvailable(fmt)
+
 # Add executable
 add_executable(exec_box_filter box_filter.cpp box_filter.cu)
 target_link_libraries(exec_box_filter PRIVATE ${OpenCV_LIBS} CUDA::cudart
@@ -41,5 +48,6 @@ set_target_properties(exec_bilateral_filter PROPERTIES CUDA_ARCHITECTURES
                                                        native)
 
 add_executable(exec_resize resize.cpp resize.cu)
-target_link_libraries(exec_resize PRIVATE ${OpenCV_LIBS} CUDA::cudart nppig)
+target_link_libraries(exec_resize PRIVATE ${OpenCV_LIBS} CUDA::cudart nppig
+                                          fmt::fmt)
 set_target_properties(exec_resize PROPERTIES CUDA_ARCHITECTURES native)
